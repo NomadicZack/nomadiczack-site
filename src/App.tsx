@@ -1,161 +1,32 @@
-import React from 'react';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import {
-  Instagram, Facebook, Youtube, Wallet, DollarSign,
-  Zap, Square, Mail, MessageSquareQuote, Video, Star,
-} from 'lucide-react';
+import { ArrowUpRight, Github, Instagram, Mail, Menu, Play, Terminal, X, Youtube } from 'lucide-react';
+import { useState } from 'react';
 
-import { Layout }              from './components/Layout';
-import { ProfileHeader }       from './components/ProfileHeader';
-import { SocialButton }        from './components/SocialButton';
-import { FeaturedVideo }       from './components/FeaturedVideo';
-import { TestimonialCarousel } from './components/TestimonialCarousel';
-import { AboutPage }           from './components/AboutPage';
-import { WorkWithMePage }      from './components/WorkWithMePage';
-import { TestimonialsPage }    from './components/TestimonialsPage';
-import { NewsletterPage }      from './components/NewsletterPage';
-import { SupportPage }         from './components/SupportPage';
-import { MediaPage }           from './components/MediaPage';
-import { ReviewTipPage }       from './components/ReviewTipPage';
-import { LinkItem, LinkCategory } from './types';
-
-// ─── Custom icons ─────────────────────────────────────────────────────────────
-
-const TikTokIcon: React.FC<{ size?: number; color?: string }> = ({ size = 24, color = 'currentColor' }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-  </svg>
-);
-
-const PaypalIcon: React.FC<{ size?: number; color?: string }> = ({ size = 24, color = 'currentColor' }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M17.5 8.5c-.5-3-3.5-5-6.5-5H6.5a1 1 0 0 0-1 1v15h4l1-6h2c3 0 5.5-2 6-5.5Z" />
-    <path d="m10.5 14.5.5-3" />
-  </svg>
-);
-
-const SnapchatIcon: React.FC<{ size?: number; color?: string }> = ({ size = 24, color = 'currentColor' }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M12 2.5c-2.3 0-5.5 1.7-5.5 6 0 2.5 1.2 3.6 1.2 5 0 1.2-1 1.7-1.7 1.7-1 0-1.5.8-1.5 1.8 0 1.8 2.2 2.5 3.5 2.5.5 0 1 .5 1 1 0 .6-.7 1-1.5 1-.3 0-.5.2-.5.5 0 .5 1 .5 2 .5 1.5 0 3-.2 5-.5 2 .3 3.5.5 5 .5 1 0 2 0 2-.5 0-.3-.2-.5-.5-.5-.8 0-1.5-.4-1.5-1 0-.5.5-1 1-1 1.3 0 3.5-.7 3.5-2.5 0-1-.5-1.8-1.5-1.8-.7 0-1.7-.5-1.7-1.7 0-1.4 1.2-2.5 1.2-5 0-4.3-3.2-6-5.5-6z" />
-  </svg>
-);
-
-// ─── Link data ────────────────────────────────────────────────────────────────
-
-const LINKS: LinkItem[] = [
-  { id: '1',  title: 'Instagram', url: 'https://www.instagram.com/thenomadiczack',   icon: Instagram as any,  category: LinkCategory.SOCIAL,  color: '#E1306C' },
-  { id: '2',  title: 'TikTok',    url: 'https://www.tiktok.com/@nomadiczack',         icon: TikTokIcon,        category: LinkCategory.SOCIAL,  color: '#00F2EA' },
-  { id: '3',  title: 'YouTube',   url: 'https://www.youtube.com/@NomadicZack',         icon: Youtube as any,    category: LinkCategory.SOCIAL,  color: '#FF0000' },
-  { id: '4',  title: 'Facebook',  url: 'https://www.facebook.com/nomadiczack',         icon: Facebook as any,   category: LinkCategory.SOCIAL,  color: '#1877F2' },
-  { id: '5',  title: 'Snapchat',  url: 'https://www.snapchat.com/add/nomadiczack',     icon: SnapchatIcon,      category: LinkCategory.SOCIAL,  color: '#FFFC00' },
-  { id: '6',  title: 'Venmo',     url: 'https://www.venmo.com/u/NomadicZack',          icon: Wallet as any,     category: LinkCategory.SUPPORT, color: '#008CFF' },
-  { id: '7',  title: 'PayPal',    url: 'https://www.paypal.biz/TerminalNomad',         icon: PaypalIcon,        category: LinkCategory.SUPPORT, color: '#003087' },
-  { id: '8',  title: 'Square',    url: 'https://square.link/u/txX0xLNq',               icon: Square as any,     category: LinkCategory.SUPPORT, color: '#FFFFFF' },
-  { id: '9',  title: 'Zelle',     url: 'https://enroll.zellepay.com/qr-codes?data=eyJuYW1lIjoiWmFjaGVyeSBLcmlldGVuc3RlaW4iLCJlbWFpbCI6ImFjdGFsaXZlQGdtYWlsLmNvbSJ9', icon: Zap as any, category: LinkCategory.SUPPORT, color: '#6D1ED4' },
-  { id: '10', title: 'CashApp',   url: 'https://cash.app/$NomadicZack',                icon: DollarSign as any, category: LinkCategory.SUPPORT, color: '#00D632' },
+const projects = [
+  { name: 'After Action', description: 'A local-first operational learning workspace that turns retrospectives into accountable follow-through.', stack: 'React · TypeScript · Local-first', href: 'https://github.com/NomadicZack/after-action-review', label: 'SHIPPED PROJECT' },
+  { name: 'NomadicZack Site', description: 'A creator and builder platform for projects, field notes, and practical technology content.', stack: 'React · TypeScript · Vite', href: 'https://github.com/NomadicZack/nomadiczack-site', label: 'LIVE PLATFORM' },
+  { name: 'Creator OS', description: 'A practical system for turning research, experiments, and builds into useful content across platforms.', stack: 'Automation · AI · Content systems', href: '#content', label: 'IN DEVELOPMENT' },
 ];
 
-// ─── Home page ────────────────────────────────────────────────────────────────
-
-const HomePage = () => {
-  // TEMP: live-location feed hidden, showing a fixed location for now.
-  // To restore, delete the line below and un-comment the block that follows.
-  const location = 'Bangkok, Thailand';
-  const socialLinks  = LINKS.filter((l) => l.category === LinkCategory.SOCIAL);
-  const supportLinks = LINKS.filter((l) => l.category === LinkCategory.SUPPORT);
-
-  /*
-  const [location, setLocation] = useState('Locating…');
-  useEffect(() => {
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT7Ty_cQhXUU0PXT2u2-LtmW_K8TFKa5luFJGSPRZqEbcduP5NojkcLJ4qASHSZuOPdaw4UMe4yvnu_/pub?output=csv';
-    fetch(sheetUrl)
-      .then((r) => { if (!r.ok) throw new Error('Failed'); return r.text(); })
-      .then((csv) => {
-        const rows = csv.split('\n');
-        if (rows.length > 1) {
-          const cells = rows[1].split(',');
-          const loc = [cells[0], cells[1], cells[2]].map(c => c?.replace(/"/g, '').trim()).filter(Boolean).join(', ');
-          if (loc) setLocation(loc);
-        }
-      })
-      .catch(() => setLocation('Raeford, NC, USA'));
-  }, []);
-  */
-
-  return (
-    <>
-      <ProfileHeader location={location} />
-      <main className="w-full max-w-md md:max-w-6xl mx-auto px-5 pb-24 relative z-40">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start">
-
-          {/* Left column */}
-          <div className="md:col-span-7 flex flex-col gap-8 order-1">
-            <FeaturedVideo videoId="mqipTSa6EQU" />
-            <TestimonialCarousel onReadMore={() => {}} />
-          </div>
-
-          {/* Right column */}
-          <div className="md:col-span-5 flex flex-col gap-8 order-2 md:sticky md:top-8">
-
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-              <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500 mb-4 text-center">Connect</h2>
-              <div className="flex flex-col gap-2.5">
-                {socialLinks.map((link) => <SocialButton key={link.id} item={link} />)}
-              </div>
-            </div>
-
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500 mb-4 text-center">Support the Journey</h2>
-              <div className="flex flex-col gap-2.5">
-                {supportLinks.map((link) => <SocialButton key={link.id} item={link} />)}
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center gap-3 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              <Link to="/testimonials" className="inline-flex items-center gap-2 text-slate-400 hover:text-brand-accent transition-colors text-sm font-mono py-2 hover:bg-white/5 rounded-lg w-full justify-center">
-                <MessageSquareQuote size={15} aria-hidden="true" />
-                Testimonials
-              </Link>
-              <Link to="/media" className="inline-flex items-center gap-2 text-slate-400 hover:text-brand-accent transition-colors text-sm font-mono py-2 hover:bg-white/5 rounded-lg w-full justify-center">
-                <Video size={15} aria-hidden="true" />
-                Skydive Media
-              </Link>
-              <Link to="/review" className="inline-flex items-center gap-2 text-slate-400 hover:text-brand-accent transition-colors text-sm font-mono py-2 hover:bg-white/5 rounded-lg w-full justify-center">
-                <Star size={15} aria-hidden="true" />
-                Review &amp; Tip
-              </Link>
-              <a href="mailto:zack@terminalnomad.com" className="inline-flex items-center gap-2 text-slate-400 hover:text-brand-accent transition-colors text-sm font-mono py-2 hover:bg-white/5 rounded-lg w-full justify-center">
-                <Mail size={15} aria-hidden="true" />
-                Business Inquiries
-              </a>
-            </div>
-
-          </div>
-        </div>
-      </main>
-    </>
-  );
-};
-
-// ─── App with routes ──────────────────────────────────────────────────────────
+const pillars = [
+  ['01', 'Build in public', 'Practical AI agents, automations, applications, and honest lessons from shipping them.'],
+  ['02', 'Make technology useful', 'Clear explanations of tools and systems without unnecessary complexity.'],
+  ['03', 'Lead through ambiguity', 'Systems thinking shaped by nearly two decades in the Army and special operations.'],
+  ['04', 'Create the next chapter', 'The real process of moving into technology and content creation.'],
+];
 
 export default function App() {
-  return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/"             element={<HomePage />} />
-        <Route path="/about"        element={<AboutPage />} />
-        <Route path="/work"         element={<WorkWithMePage />} />
-        <Route path="/testimonials" element={<TestimonialsPage />} />
-        <Route path="/newsletter"   element={<NewsletterPage />} />
-        <Route path="/support"      element={<SupportPage links={LINKS} />} />
-        <Route path="/media"         element={<MediaPage />} />
-        <Route path="/review"        element={<ReviewTipPage />} />
-        <Route path="/thanks"        element={<ReviewTipPage />} />
-        <Route path="/tip"           element={<ReviewTipPage />} />
-        {/* Catch-all redirect for unknown URLs */}
-        <Route path="*"             element={<HomePage />} />
-      </Route>
-    </Routes>
-  );
+  const [open, setOpen] = useState(false);
+  return <div>
+    <header><a className="logo" href="#top"><b>NZ</b> NOMADICZACK</a><nav className={open ? 'open' : ''}><a href="#work">Work</a><a href="#content">Content</a><a href="#about">About</a><a href="#contact">Contact</a></nav><button className="menu" onClick={() => setOpen(!open)}>{open ? <X/> : <Menu/>}</button></header>
+    <main id="top">
+      <section className="hero wrap"><div><p className="eyebrow">BUILDER · CREATOR · SYSTEMS THINKER</p><h1>Building useful systems.<br/><em>Sharing the process.</em></h1><p className="lead">I’m Zack, a U.S. Army Senior NCO, technologist, and content creator. I build AI agents, automation systems, and software tools, then share what I learn along the way.</p><div className="actions"><a className="primary" href="#work">Explore my work <ArrowUpRight/></a><a href="#content"><Play/> Follow the journey</a></div></div><aside><img src="/profile_photo.jpg" alt="Zack Nomad"/><p className="status">● CURRENTLY BUILDING</p><strong>AI systems and creator tools</strong><small>North Carolina · Working globally</small></aside></section>
+      <div className="signal"><span>Nearly 20 years of leadership</span><span>Special operations experience</span><span>Complex problems made practical</span><span>Building in public</span></div>
+      <section id="work" className="wrap"><div className="heading"><div><p className="eyebrow">SELECTED WORK</p><h2>Systems built to be used.</h2></div><a href="https://github.com/NomadicZack">View GitHub <ArrowUpRight/></a></div><div className="grid">{projects.map((project,i)=><a className="card" href={project.href} key={project.name}><span>0{i+1}</span><p>{project.label}</p><h3>{project.name}</h3><div>{project.description}</div><small>{project.stack}</small><ArrowUpRight/></a>)}</div></section>
+      <section id="content" className="wrap split"><div><p className="eyebrow">CONTENT AND FIELD NOTES</p><h2>I share the work,<br/>not just the result.</h2><p className="copy">Expect practical breakdowns, honest experiments, project walkthroughs, and lessons from applying operational thinking to technology.</p><div className="socials"><a href="https://youtube.com/@NomadicZack"><Youtube/>YouTube</a><a href="https://tiktok.com/@NomadicZack"><Play/>TikTok</a><a href="https://instagram.com/TheNomadicZack"><Instagram/>Instagram</a></div></div><article className="feature"><Terminal/><p>COMING NEXT</p><h3>Building an AI-assisted personal operating system</h3><div>A practical look at connecting automation, local knowledge, and multiple AI models into one useful workflow.</div><a href="mailto:zack@nomadiczack.com?subject=New content">Get notified <ArrowUpRight/></a></article></section>
+      <section className="wrap"><p className="eyebrow">WHAT GUIDES THE WORK</p><h2>Better way. Clear outcome.</h2><div className="pillars">{pillars.map(p=><article key={p[0]}><span>{p[0]}</span><h3>{p[1]}</h3><p>{p[2]}</p></article>)}</div></section>
+      <section id="about" className="wrap about"><div><p className="eyebrow">ABOUT ME</p><h2>Built for complex environments.</h2></div><div className="copy"><p>After nearly two decades of Army service, including experience in special operations, I know how to work autonomously, make decisions with incomplete information, and turn difficult problems into executable plans.</p><p>I am preparing to retire from active-duty military service in 2027 and move into a civilian career in AI, automation, software, and content creation. The uniform is part of my story. Building what comes next is the mission.</p><div className="chips"><span>Applied AI</span><span>Automation</span><span>TypeScript</span><span>React</span><span>Python</span><span>Leadership</span></div></div></section>
+      <section id="contact" className="wrap contact"><p className="eyebrow">LET’S BUILD SOMETHING USEFUL</p><h2>Projects, collaborations,<br/>and good problems welcome.</h2><p className="copy">Open to conversations about AI, automation, software, content partnerships, and fully remote civilian opportunities.</p><a className="primary" href="mailto:zack@nomadiczack.com">Start a conversation <Mail/></a></section>
+    </main>
+    <footer><a className="logo" href="#top"><b>NZ</b> NOMADICZACK</a><p>© {new Date().getFullYear()} Zack Nomad. Built with intent.</p><div><a href="https://github.com/NomadicZack"><Github/></a><a href="https://youtube.com/@NomadicZack"><Youtube/></a></div></footer>
+  </div>
 }

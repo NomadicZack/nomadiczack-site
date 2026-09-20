@@ -1,52 +1,20 @@
-# NomadicZack v2.0
+# NomadicZack Site
 
-Rebuilt from scratch with proper JSX, full SEO, Open Graph, Google Analytics, and improved UX.
+The source for [nomadiczack.com](https://nomadiczack.com), a creator and technology portfolio focused on practical AI, automation, software, leadership, and building in public.
 
-## What's new in v2.0
+## Purpose
 
-- ✅ Full JSX syntax (no more `React.createElement`)
-- ✅ SEO meta tags (title, description, keywords)
-- ✅ Open Graph tags (rich previews on Instagram, Discord, iMessage, etc.)
-- ✅ Twitter Card support
-- ✅ Google Analytics placeholder (replace `G-XXXXXXXXXX` with your real ID)
-- ✅ Snapchat link added back to social section
-- ✅ Popup uses `localStorage` — won't pester the same visitor twice
-- ✅ Testimonial carousel with prev/next buttons + pause on manual scroll
-- ✅ Improved profile header with better avatar fallback
-- ✅ Cleaned up repo structure — no duplicate files
-- ✅ Better accessibility (aria labels, semantic HTML, keyboard nav)
-- ✅ Ambient glow background effect
-- ✅ Auto-updating copyright year in footer
+This site documents what Zack builds, what he learns, and the systems thinking behind the work. His Army and special operations experience provides context. The primary focus is technology, content creation, and the next chapter.
 
-## Setup
+## Stack
 
-```bash
-npm install
-npm run dev
-```
+- React and TypeScript
+- Vite
+- Responsive CSS
+- Netlify deployment
 
-## Deploy to Netlify
+## Development
 
-Push to your GitHub repo. Netlify will auto-deploy on every push.
+Run `npm install`, then `npm run dev`.
 
-Build command: `npm run build`  
-Publish directory: `dist`
-
-## Google Analytics
-
-1. Go to https://analytics.google.com and create a free account for nomadiczack.com
-2. Get your Measurement ID (looks like `G-XXXXXXXXXX`)
-3. Open `index.html` and replace `G-XXXXXXXXXX` with your real ID (appears twice)
-4. Push to GitHub — done!
-
-## Add a real profile photo
-
-1. Upload your photo to Google Drive and get a shareable link
-2. Open `src/components/ProfileHeader.tsx`
-3. Replace the `src` URL in the avatar `<img>` tag with your photo URL
-4. Push and redeploy
-
-## Location updates
-
-Edit your current location in the Google Sheet linked in `src/App.tsx`.
-The site will pick it up automatically on the next page load.
+Use `npm run lint` and `npm run build` before deployment.
