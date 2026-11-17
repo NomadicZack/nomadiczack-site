@@ -1,5 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="8" fill="#09100e"/>
-  <rect x="8" y="8" width="48" height="48" rx="3" fill="none" stroke="#9ce4bd" stroke-width="3"/>
-  <text x="32" y="39" text-anchor="middle" fill="#9ce4bd" font-family="monospace" font-size="22" font-weight="700">NZ</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#172b40"/><circle cx="32" cy="32" r="22" fill="none" stroke="#efbe91" stroke-width="2"/><path d="m43 21-7 15-15 7 7-15z" fill="#efbe91"/><circle cx="32" cy="32" r="3" fill="#172b40"/></svg>
